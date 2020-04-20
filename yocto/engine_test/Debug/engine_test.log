@@ -1,0 +1,14 @@
+﻿  main.cpp
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(97): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(98): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(100): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(101): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(103): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(104): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(108): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(109): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(111): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(112): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(114): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(115): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+  engine_test.vcxproj -> E:\Users\ctx\Documents\CoursEnjmin\CoursGL_OpenGL\yocto\Debug\engine_test.exe

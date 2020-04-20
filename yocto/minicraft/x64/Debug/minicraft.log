@@ -1,0 +1,7 @@
+﻿  fbo.cpp
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\src\engine\render\fbo.cpp(244): fatal error C1010: fin de fichier inattendue lors de la recherche d'un en-tête précompilé. N'auriez-vous pas oublié d'ajouter '#include "stdafx.h"' à votre source ?
+  vbo.cpp
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\src\engine\render\vbo.cpp(60): fatal error C1010: fin de fichier inattendue lors de la recherche d'un en-tête précompilé. N'auriez-vous pas oublié d'ajouter '#include "stdafx.h"' à votre source ?
+  main.cpp
+e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\minicraft\src\main.cpp(23): fatal error C1010: fin de fichier inattendue lors de la recherche d'un en-tête précompilé. N'auriez-vous pas oublié d'ajouter '#include "stdafx.h"' à votre source ?
+  Génération de code en cours...
