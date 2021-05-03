@@ -231,7 +231,8 @@ public :
 		Instance->update(elapsed);
 
 		//Et on dessine
-		Instance->Renderer->render(elapsed);		
+		Instance->Renderer->render(elapsed);
+	
 	}
 
 	static void render2dBase(void)

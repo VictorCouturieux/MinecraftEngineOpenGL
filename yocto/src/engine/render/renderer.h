@@ -25,6 +25,7 @@ public:
 	YCamera * Camera; ///< Gestion du point de vue
 	int ScreenWidth; ///< Largeur ecran en pixels
 	int ScreenHeight; ///< Hauteur ecran en pixels
+	float elapsed;
 	YColor BackGroundColor; ///< Couleur de fond. La modifier avec setBackgroundColor()
 	YTextEngine * TextEngine; ///< Rendu de texte
 	static const int CURRENT_SHADER = 0;
@@ -162,6 +163,8 @@ public:
 			YLog::log(YLog::ENGINE_INFO, ("Screen shot " + NameScreenShot + " saved").c_str());
 			TakeScreenShot = false;
 		}
+
+		this->elapsed = elapsed;
 
 		//On clear
 		glClearColor(BackGroundColor.R, BackGroundColor.V, BackGroundColor.B, BackGroundColor.A);
@@ -337,6 +340,36 @@ public:
 		glUniform1f(var, (float)(elapsed));
 	}
 
+	void sendLightPosToShader(YVec3<float> light_pos, int prog) {
+		if (prog == CURRENT_SHADER)
+			glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+		if (prog == 0)
+			return;
+
+		GLuint var = glGetUniformLocation(prog, "light_pos");
+		glUniform3f(var, light_pos.X, light_pos.Y, light_pos.Z);
+	}
+
+	void sendCamPosToShader(YVec3<float> cam_pos, int prog) {
+		if (prog == CURRENT_SHADER)
+			glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+		if (prog == 0)
+			return;
+
+		GLuint var = glGetUniformLocation(prog, "cam_pos");
+		glUniform3f(var, cam_pos.X, cam_pos.Y, cam_pos.Z);
+	}
+
+	void sendSunColorToShader(YColor sun_color, int prog) {
+		if (prog == CURRENT_SHADER)
+			glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
+		if (prog == 0)
+			return;
+
+		GLuint var = glGetUniformLocation(prog, "sun_color");
+		glUniform4f(var, sun_color.R, sun_color.V, sun_color.B, sun_color.A);
+	}
+
 	void sendScreenSizeToShader(int prog) {
 		if (prog == CURRENT_SHADER)
 			glGetIntegerv(GL_CURRENT_PROGRAM, &prog);
@@ -401,6 +434,10 @@ public:
 
 		var = glGetUniformLocation(prog, "screen_height");
 		glUniform1f(var, (float)(ScreenHeight));
+
+		// printf("elapsed : %.6f \n", elapsed);
+		//GLuint el = glGetUniformLocation(prog, "elapsed");
+		//glUniform1f(el, (float)(elapsed));
 
 		checkGlError("Fin sendToShader");
 	}

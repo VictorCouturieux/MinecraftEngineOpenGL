@@ -65,6 +65,9 @@
     <ClInclude Include="..\src\engine\render\camera.h">
       <Filter>Fichiers d%27en-tête\engine\render</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine\noise\MPerlin.h">
+      <Filter>Fichiers d%27en-tête\engine\noise</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

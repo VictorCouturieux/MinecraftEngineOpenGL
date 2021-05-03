@@ -15,6 +15,7 @@ class MEngineMinicraft : public YEngine {
 public :
 
 	YVbo * VboCube;
+	
 	int iVertice = 0;
 	GLuint ShaderCubeDebug;
 	GLuint ShaderCube;
@@ -31,6 +32,12 @@ public :
 	bool keyboardTabl[256];
 	bool keyboardSpecialTabl[256];
 
+	float elapsed = 0;
+	bool BoostingTime = false;
+	float time = 0;
+
+	MAvatar * Avatar;
+	
 	MWorld * World;
 	
 	//Gestion singleton
@@ -56,12 +63,13 @@ public :
 		SkyColor = YColor(0.0f, 181.f / 255.f, 221.f / 255.f, 1.0f);
 		
 		Renderer->setBackgroundColor(YColor(SkyColor.R, SkyColor.V, SkyColor.B, 1.0f));//YColor(0.0f,0.0f,0.0f,1.0f)
-		Renderer->Camera->setPosition(YVec3f(10, 10, 10));
-		Renderer->Camera->setLookAt(YVec3f());
-
+		// Renderer->Camera->setPosition(YVec3f(10, 10, 10));
+		// Renderer->Camera->setLookAt(YVec3f());
+		
 		ShaderCubeDebug = Renderer->createProgram("shaders/cube_debug");
 		ShaderCube = Renderer->createProgram("shaders/cube");
 		ShaderSun = Renderer->createProgram("shaders/sun");
+		ShaderWorld = Renderer->createProgram("shaders/world");
 
 		//init sun
 		SunPosition = { 0, 0, 0 };
@@ -71,9 +79,12 @@ public :
 		//Création du monde
 		World = new MWorld();
 		World->init_world(0);
+
+		Avatar = new MAvatar(Renderer->Camera, World);
 		
 		// --Rendu du cube--
 		//Creation du VBO
+
 		VboCube = new YVbo(3, 36, YVbo::PACK_BY_ELEMENT_TYPE);
 		VboCube->setElementDescription(0, YVbo::Element(3)); //Sommet
 		VboCube->setElementDescription(1, YVbo::Element(3)); //Normale
@@ -110,9 +121,17 @@ public :
 
 	void update(float elapsed) 
 	{
-		updateLights();
+		this->elapsed += elapsed;
+		// printf("%.6f \n", elapsed);
+		updateLights(time);
+		if (BoostingTime)
+		{
+			time += 0.5;
+		}
 		
-		zqsdMoveCamera();
+		Avatar->update(elapsed);
+		Avatar->Run = GetKeyState(VK_LSHIFT) & 0x80;
+		Renderer->Camera->moveTo(Avatar->Position + YVec3f(0, 0, Avatar->CurrentHeight / 2));
 	}
 
 	void renderObjects() 
@@ -141,9 +160,35 @@ public :
 		GLuint var1 = glGetUniformLocation(ShaderCube, "cube_color");
 		glUniform4f(var1, 40.0f / 255.0f, 25.0f / 255.0f, 0.0f, 1.0f);
 
-		//draw monde
-		World->render_world_basic(ShaderCube, VboCube);
+		// -- rendu du monde --
+		// World->render_world_basic(ShaderCube, VboCube);
+		glUseProgram(ShaderWorld);
+		// - envoi elapsed -
+		// printf("elapsed : %.6f \n", elapsed);
+		Renderer->updateMatricesFromOgl(); //Calcule toute les matrices à partir des deux matrices OGL
+		Renderer->sendTimeToShader(elapsed, ShaderWorld); //Envoie elapsed au shader
 
+		// - envoi LightPos au monde -
+		// printf("LightPos : %.6f, %.6f, %.6f \n", 
+		//	 SunPosition.X, SunPosition.Y, SunPosition.Z);
+		Renderer->updateMatricesFromOgl(); //Calcule toute les matrices à partir des deux matrices OGL
+		Renderer->sendLightPosToShader(SunPosition, ShaderWorld); //Envoie "light position" au shader
+
+		// - envoi CamPos au monde -
+		// printf("CamPos : %.6f, %.6f, %.6f \n", 
+		//	 Renderer->Camera->Position.X, 
+		//	 Renderer->Camera->Position.Y, 
+		//	 Renderer->Camera->Position.Z);
+		Renderer->updateMatricesFromOgl(); //Calcule toute les matrices à partir des deux matrices OGL
+		Renderer->sendCamPosToShader(Renderer->Camera->Position, ShaderWorld); //Envoie "camera position" au shader
+		
+		// - envoi SunColor au monde -
+		// printf("SunColor : %.6f, %.6f, %.6f, %.6f \n", SunColor.R, SunColor.V, SunColor.B, SunColor.A);
+		Renderer->updateMatricesFromOgl(); //Calcule toute les matrices à partir des deux matrices OGL
+		Renderer->sendSunColorToShader(SunColor, ShaderWorld); //Envoie "sun color" au shader
+
+		World->render_world_vbo(false, true); //rendu VBO du World
+		
 		// -- rendu du soleil --
 		glUseProgram(ShaderSun); //Demande au GPU de charger ces shaders
 		GLuint var2 = glGetUniformLocation(ShaderSun, "sun_color");
@@ -152,7 +197,6 @@ public :
 		glScalef(10, 10, 10);
 		Renderer->updateMatricesFromOgl(); //Calcule toute les matrices à partir des deux matrices OGL
 		Renderer->sendMatricesToShader(ShaderSun); //Envoie les matrices au shader
-		
 		
 		VboCube->render(); //Demande le rendu du VBO
 		glPopMatrix();
@@ -164,42 +208,6 @@ public :
 
 	/*INPUTS*/
 
-	void zqsdMoveCamera()
-	{
-		if (keyboardTabl[122] || keyboardTabl[90])//z || Z
-		{
-			//Forward:
-			Renderer->Camera->move({
-				Renderer->Camera->Direction.X / 300.0f,
-				Renderer->Camera->Direction.Y / 300.0f ,
-				0 });
-		}
-		if (keyboardTabl[113] || keyboardTabl[81])//q || Q 
-		{
-			//Left:
-			Renderer->Camera->move({
-				Renderer->Camera->Direction.Y / -300.0f,
-				Renderer->Camera->Direction.X / 300.0f ,
-				0 });
-		}
-		if (keyboardTabl[115] || keyboardTabl[83])// s || S
-		{
-			//Back:
-			Renderer->Camera->move({
-				Renderer->Camera->Direction.X / -300.0f,
-				Renderer->Camera->Direction.Y / -300.0f ,
-				0 });
-		}
-		if (keyboardTabl[100] || keyboardTabl[68])//d || D
-		{
-			//Right:
-			Renderer->Camera->move({
-				Renderer->Camera->Direction.X / 300.0f,
-				Renderer->Camera->Direction.Y / -300.0f ,
-				0 });
-		}
-	}
-
 	void keyPressed(int key, bool special, bool down, int p1, int p2) 
 	{	
 		// printf("%d : ", key);
@@ -207,13 +215,35 @@ public :
 		// printf(down ? "true : " : "false : ");
 		// printf("%d : ", p1);
 		// printf("%d\n", p2);
-		if (!special)
-		{
-			keyboardTabl[key] = down;
-		}
-		else
-		{
-			keyboardSpecialTabl[key] = down;
+		// if (!special)
+		// {
+		// 	keyboardTabl[key] = down;
+		// }
+		// else
+		// {
+		// 	keyboardSpecialTabl[key] = down;
+		// }
+		if (key == 'z')
+			Avatar->avance = down;
+		if (key == 's')
+			Avatar->recule = down;
+		if (key == 'q')
+			Avatar->gauche = down;
+		if (key == 'd')
+			Avatar->droite = down;
+		if (key == ' ')
+			Avatar->Jump = down;
+		if (key == 'g')
+			// printf("%d : ", key);
+			// printf(down ? "true \n" : "false \n");
+			BoostingTime = down;
+		if (key == 'e'&& !down) {
+			int xC, yC, zC;
+			YVec3f inter;
+			World->getRayCollision(Renderer->Camera->Position,
+				Renderer->Camera->Position + Renderer->Camera->Direction * 30,
+				inter, xC, yC, zC);
+			World->deleteCube(xC, yC, zC);
 		}
 	}
 
