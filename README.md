@@ -1,2 +1,2 @@
 # MinecraftEngineOpenGL
-Cnam enjmin openGL programming course.
+Cnam enjmin openGL programming course
