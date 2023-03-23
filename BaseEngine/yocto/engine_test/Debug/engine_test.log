@@ -1,0 +1,44 @@
+﻿  camera.cpp
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\src\engine\utils\types_3d.h(682,1): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\src\engine\utils\types_3d.h(683,16): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  fbo.cpp
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\src\engine\utils\types_3d.h(682,1): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\src\engine\utils\types_3d.h(683,16): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  vbo.cpp
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\src\engine\utils\types_3d.h(682,1): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\src\engine\utils\types_3d.h(683,16): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+  main.cpp
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\src\engine\utils\types_3d.h(682,1): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\src\engine\utils\types_3d.h(683,16): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(97,89): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(97,87): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(97,64): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(97,61): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(98,72): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(100,96): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(100,92): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(100,68): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(100,63): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(101,72): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(103,96): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(103,91): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(103,66): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(103,61): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(104,72): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(108,96): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(108,91): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(108,66): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(108,61): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(109,72): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(111,98): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(111,93): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(111,68): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(111,63): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(112,72): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(114,102): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(114,95): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(114,70): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(114,63): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\engine_test\src\engine_test.h(115,72): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+  Génération de code en cours...
+  engine_test.vcxproj -> C:\Users\victo\Desktop\Engine cours\BaseEngine\yocto\Debug\engine_test.exe
