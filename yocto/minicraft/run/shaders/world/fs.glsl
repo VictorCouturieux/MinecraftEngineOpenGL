@@ -6,6 +6,7 @@ in vec4 color;
 in vec4 posWorld;
 flat in int type;
 //in vec2 uv;
+in vec4 shadowClipPos;
 
 out vec4 p_color;
 //out vec4 color_out;
@@ -14,6 +15,8 @@ uniform vec3 light_pos;
 uniform vec3 cam_pos; //Position de la camera
 uniform float elapsed;
 uniform vec4 sun_color; //Couleur du soleil
+
+uniform sampler2D shadow_map;
 
 #define CUBE_HERBE 0.0
 #define CUBE_TERRE 1.0
@@ -50,11 +53,13 @@ void main()
 		N = normalize(cross(A-P,B-P));
 	}
 
-	float hautDansLeCiel = min(Lsun.z*0.7,0.7);
+	float hautDansLeCiel = min(Lsun.z*0.1, 0.9);
 	float ambient = hautDansLeCiel;
+	vec3 ambientVec = ambient * sun_color.rgb;
 
 	float diffuse = max(ambient,dot(N,Lsun));
 	//diffuse += max(0,dot(N,L2)) * L2Power;
+	vec3 diffuseVec = diffuse * sun_color.rgb;
 
 	//Speculaire
 	vec3 V = normalize(cam_pos - posWorld.xyz);
@@ -65,6 +70,8 @@ void main()
 
 	//color_out = vec4((color.rgb + specColor)*diffuse,color.a);
 	p_color = vec4((color.rgb + specColor)*diffuse,color.a);
+	//p_color = color.rgba * vec4(ambientVec + diffuseVec + specColor, 1);
+
 	//p_color.rgb = N.rgb;
 	
 
@@ -72,4 +79,12 @@ void main()
 	//vec3 toLight = normalize(vec3(0,1,1));
 	//color_out = vec4(sqrt(color.xyz * max(0,dot(toLight,normal)) * 0.97 + 0.03 * vec3(0.8,0.9,1)),color.a);
 	
+	//shadow_map
+	vec2 shadowUv = (shadowClipPos.xy / shadowClipPos.w) * 0.5 + 0.5;
+	float actualShadowDepth = (shadowClipPos.z / shadowClipPos.w) * 0.5 + 0.5;
+
+	float shadowDepth = texture(shadow_map, shadowUv).r;
+
+	float shadowAttenuation = (actualShadowDepth > shadowDepth) ? 0.7 : 1.0;
+	p_color *= vec4(vec3(shadowDepth *4), 1);
 }

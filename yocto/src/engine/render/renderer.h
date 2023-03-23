@@ -42,17 +42,7 @@ private:
 	void(*_RenderObjectsFun)(void); ///< Fonction de rendu des objets uniquement (parfois fait n fois dans certains rendus)
 	void(*_Render2DFun)(void); ///< Rendu en 2d (en passe en mode camera ortho, etc...)
 
-	//Matrices sauvées, a passer aux shaders, calculées depuis les matrices OGL
-	YMat44 MatM;
-	YMat44 MatV;
-	YMat44 MatP;
-	YMat44 MatNorm;
-	YMat44 MatMV;
-	YMat44 MatMVP;
-	YMat44 MatIM;
-	YMat44 MatIV;
-	YMat44 MatIP;
-
+	
 	bool TakeScreenShot = false;
 	string NameScreenShot;
 
@@ -76,6 +66,17 @@ private:
 	}
 
 public:
+
+	//Matrices sauvées, a passer aux shaders, calculées depuis les matrices OGL
+	YMat44 MatM;
+	YMat44 MatV;
+	YMat44 MatP;
+	YMat44 MatNorm;
+	YMat44 MatMV;
+	YMat44 MatMVP;
+	YMat44 MatIM;
+	YMat44 MatIV;
+	YMat44 MatIP;
 
 	static YRenderer * getInstance()
 	{

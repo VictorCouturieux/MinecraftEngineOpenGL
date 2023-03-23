@@ -1,10 +1,11 @@
 #version 400
 
-//uniform mat4 mvp;
+uniform mat4 mvp;
 uniform mat4 m;
 uniform mat4 v;
 uniform mat4 p;
 uniform mat4 nmat;
+uniform mat4 shadow_camera_vp;
 
 uniform float elapsed;
 
@@ -19,6 +20,7 @@ out vec4 color;
 out vec4 posWorld;
 flat out int type;
 out vec2 uv;
+out vec4 shadowClipPos;
 
 #define CUBE_HERBE 0.0
 #define CUBE_TERRE 1.0
@@ -90,4 +92,6 @@ void main()
 	//	color = vec4(0.0,0.0,1.0,0.7);
 	
 
+	vec4 worldPos = m * posO;
+	shadowClipPos = shadow_camera_vp * worldPos;
 }

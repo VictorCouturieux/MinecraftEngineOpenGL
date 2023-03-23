@@ -1,14 +1,1 @@
-﻿  main.cpp
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(97): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(98): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(100): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(101): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(103): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(104): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(108): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(109): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(111): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(112): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(114): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-e:\users\ctx\documents\coursenjmin\coursgl_opengl\yocto\engine_test\src\engine_test.h(115): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-  engine_test.vcxproj -> E:\Users\ctx\Documents\CoursEnjmin\CoursGL_OpenGL\yocto\Debug\engine_test.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(439,5): error MSB8020: Les outils de génération pour v143 (ensemble d'outils de plateforme = 'v143') sont introuvables. Pour générer à l'aide des outils de génération v143, installez les outils de génération v143. Vous avez également la possibilité de mettre à niveau les outils Visual Studio actuels en sélectionnant le menu Projet ou en cliquant avec le bouton droit sur la solution, puis en sélectionnant "Recibler la solution".

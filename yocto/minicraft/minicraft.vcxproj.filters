@@ -42,6 +42,9 @@
     <Filter Include="Fichiers d%27en-tête\engine\render">
       <UniqueIdentifier>{75d7c323-8b30-4ce8-97d7-f825373fcbfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shaders\shadows">
+      <UniqueIdentifier>{b877f102-5259-4fd3-a98c-07c95206ce22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine_minicraft.h">
@@ -113,6 +116,12 @@
     </None>
     <None Include="run\shaders\cube_debug\vs.glsl">
       <Filter>shaders\cube_debug</Filter>
+    </None>
+    <None Include="run\shaders\shadows\fs.glsl">
+      <Filter>shaders\shadows</Filter>
+    </None>
+    <None Include="run\shaders\shadows\vs.glsl">
+      <Filter>shaders\shadows</Filter>
     </None>
   </ItemGroup>
 </Project>

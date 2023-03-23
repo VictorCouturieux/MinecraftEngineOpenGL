@@ -10,6 +10,8 @@
 #include "chunk.h"
 #include "cube.h"
 
+#define SHADOWMAP_SIZE 2048
+
 class MEngineMinicraft : public YEngine {
 
 public :
@@ -21,12 +23,17 @@ public :
 	GLuint ShaderCube;
 	GLuint ShaderSun;
 	GLuint ShaderWorld;
+	GLuint ShaderShadow;
 
 	YColor SunColor;
 	YColor SkyColor;
 
 	YVec3<float> SunPosition;
 	YVec3<float> SunDirection;
+
+	YFbo* shadowFbo;
+	YCamera * shadowCamera;
+	YMat44 shadowCameraVP;
 	
 	bool mouseButtonTabl[3];
 	bool keyboardTabl[256];
@@ -47,33 +54,36 @@ public :
 			Instance = new MEngineMinicraft();
 		return Instance;
 	}
-
+	
 	/*HANDLERS GENERAUX*/
 	void loadShaders() {
-		
+		ShaderCubeDebug = Renderer->createProgram("shaders/cube_debug");
+		ShaderCube = Renderer->createProgram("shaders/cube");
+		ShaderSun = Renderer->createProgram("shaders/sun");
+		ShaderWorld = Renderer->createProgram("shaders/world");
+		ShaderShadow = Renderer->createProgram("shaders/shadows");
 	}
 
 	void init() 
 	{
 		YLog::log(YLog::ENGINE_INFO,"Minicraft Started : initialisation");
+		shadowFbo = new YFbo(true, 1, 1.0f, true);
+		shadowFbo->init(SHADOWMAP_SIZE, SHADOWMAP_SIZE);
+		shadowCamera = new YCamera();
 
 		// SunColor = new YColor(1,0,0,1);
 		// SkyColor = new YColor(0, 0, 0, 1);
 		SunColor = YColor(1.0f, 1.0f, 0.8f, 1.0f);
 		SkyColor = YColor(0.0f, 181.f / 255.f, 221.f / 255.f, 1.0f);
-		
-		Renderer->setBackgroundColor(YColor(SkyColor.R, SkyColor.V, SkyColor.B, 1.0f));//YColor(0.0f,0.0f,0.0f,1.0f)
-		// Renderer->Camera->setPosition(YVec3f(10, 10, 10));
-		// Renderer->Camera->setLookAt(YVec3f());
-		
-		ShaderCubeDebug = Renderer->createProgram("shaders/cube_debug");
-		ShaderCube = Renderer->createProgram("shaders/cube");
-		ShaderSun = Renderer->createProgram("shaders/sun");
-		ShaderWorld = Renderer->createProgram("shaders/world");
 
 		//init sun
 		SunPosition = { 0, 0, 0 };
 		SunDirection = { 0, 0, 0 };
+
+		Renderer->setBackgroundColor(YColor(SkyColor.R, SkyColor.V, SkyColor.B, 1.0f));//YColor(0.0f,0.0f,0.0f,1.0f)
+		//Renderer->Camera->setPosition(YVec3f(100, 100, 100));
+		//Renderer->Camera->setLookAt(YVec3f());
+		
 
 		// --Rendu du cube--
 		//Création du monde
@@ -84,7 +94,7 @@ public :
 		
 		// --Rendu du cube--
 		//Creation du VBO
-
+		
 		VboCube = new YVbo(3, 36, YVbo::PACK_BY_ELEMENT_TYPE);
 		VboCube->setElementDescription(0, YVbo::Element(3)); //Sommet
 		VboCube->setElementDescription(1, YVbo::Element(3)); //Normale
@@ -92,6 +102,7 @@ public :
 
 		VboCube->createVboCpu();
 
+		//cube du soleil
 		//point
 		YVec3f a{ 1, -1, -1 };
 		YVec3f b{ 1, 1, -1 };
@@ -105,11 +116,12 @@ public :
 		
 		//quad
 		showQuad(a, b, c, d, VboCube);
-		showQuad(e, h,g,f, VboCube);
+		showQuad(e, h, g, f, VboCube);
 		showQuad(c, g, h, d, VboCube);
-		showQuad(b, a,e,f, VboCube);
+		showQuad(b, a, e, f, VboCube);
 		showQuad(b, f, g, c, VboCube);
-		showQuad(a, d, h,e , VboCube);
+		showQuad(a, d, h, e, VboCube);
+		
 
 		//On envoie le contenu au GPU
 		VboCube->createVboGpu();
@@ -136,6 +148,38 @@ public :
 
 	void renderObjects() 
 	{
+		//shadow mapping
+		YCamera* baseCamera = Renderer->Camera;
+
+		YVec3f baseCamePos = Renderer->Camera->Position;
+		YVec3f sunPosCopy = SunDirection;
+		YVec3f shadowCamPos = baseCamePos + sunPosCopy.normalize() * 150;
+
+		shadowCamera->Position = shadowCamPos;
+		shadowCamera->setLookAt(baseCamePos);
+
+		float shadowCameraSize = 200;
+		shadowCamera->setProjectionOrtho(-shadowCameraSize, shadowCameraSize, -shadowCameraSize, shadowCameraSize, NearPlane, FarPlane);
+
+		// rendu de la shadow map
+		glUseProgram(ShaderShadow);
+		shadowFbo->setAsOutFBO(true, true);
+			Renderer->Camera = shadowCamera;
+			Renderer->Camera->look();
+
+			glViewport(0, 0, SHADOWMAP_SIZE, SHADOWMAP_SIZE);
+			Renderer->updateMatricesFromOgl();
+			Renderer->sendMatricesToShader(ShaderShadow);
+			World->render_world_vbo(false, false);
+
+			shadowCameraVP = Renderer->MatP;
+			shadowCameraVP *= Renderer->MatV;
+		shadowFbo->setAsOutFBO(false, false);
+
+		Renderer->Camera = baseCamera;
+		Renderer->Camera->look();
+		glViewport(0, 0, Renderer->ScreenWidth, Renderer->ScreenHeight);
+
 		glUseProgram(0);
 		//Rendu des axes
 		glDisable(GL_LIGHTING);
@@ -187,8 +231,17 @@ public :
 		Renderer->updateMatricesFromOgl(); //Calcule toute les matrices à partir des deux matrices OGL
 		Renderer->sendSunColorToShader(SunColor, ShaderWorld); //Envoie "sun color" au shader
 
+		//Opaque
+		GLuint shader_shadowCameraVP = glGetUniformLocation(ShaderWorld, "shadow_camera_vp");
+		glUniformMatrix4fv(shader_shadowCameraVP, 1, true, shadowCameraVP.Mat.t);
+		shadowFbo->setDepthAsShaderInput(GL_TEXTURE0, "shadow_map");
+		World->render_world_vbo(false, false);
+		//transparent
+		shader_shadowCameraVP = glGetUniformLocation(ShaderWorld, "shadow_camera_vp");
+		glUniformMatrix4fv(shader_shadowCameraVP, 1, true, shadowCameraVP.Mat.t);
+		shadowFbo->setDepthAsShaderInput(GL_TEXTURE0, "shadow_map");
 		World->render_world_vbo(false, true); //rendu VBO du World
-		
+
 		// -- rendu du soleil --
 		glUseProgram(ShaderSun); //Demande au GPU de charger ces shaders
 		GLuint var2 = glGetUniformLocation(ShaderSun, "sun_color");
@@ -197,6 +250,10 @@ public :
 		glScalef(10, 10, 10);
 		Renderer->updateMatricesFromOgl(); //Calcule toute les matrices à partir des deux matrices OGL
 		Renderer->sendMatricesToShader(ShaderSun); //Envoie les matrices au shader
+
+		// -- rendu des ombre generer par le soleil --
+
+
 		
 		VboCube->render(); //Demande le rendu du VBO
 		glPopMatrix();
@@ -234,6 +291,7 @@ public :
 		if (key == ' ')
 			Avatar->Jump = down;
 		if (key == 'g')
+
 			// printf("%d : ", key);
 			// printf(down ? "true \n" : "false \n");
 			BoostingTime = down;
